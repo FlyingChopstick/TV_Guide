@@ -39,7 +39,6 @@
             this.but_timetable = new System.Windows.Forms.Button();
             this.but_add = new System.Windows.Forms.Button();
             this.refresh = new System.Windows.Forms.Button();
-            this.select_day = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -106,7 +105,6 @@
             this.groupBox1.Controls.Add(this.label_channel);
             this.groupBox1.Controls.Add(this.select_channel);
             this.groupBox1.Controls.Add(this.label_day);
-            this.groupBox1.Controls.Add(this.select_day);
             this.groupBox1.Controls.Add(this.label_genre);
             this.groupBox1.Controls.Add(this.select_genre);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
@@ -122,7 +120,7 @@
             // 
             this.dateTimePicker1.Location = new System.Drawing.Point(10, 68);
             this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(200, 29);
+            this.dateTimePicker1.Size = new System.Drawing.Size(218, 29);
             this.dateTimePicker1.TabIndex = 13;
             this.dateTimePicker1.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
             // 
@@ -169,19 +167,6 @@
             this.refresh.UseVisualStyleBackColor = true;
             this.refresh.Click += new System.EventHandler(this.refresh_Click);
             // 
-            // select_day
-            // 
-            this.select_day.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.select_day.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.select_day.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.select_day.FormattingEnabled = true;
-            this.select_day.Location = new System.Drawing.Point(10, 69);
-            this.select_day.Name = "select_day";
-            this.select_day.Size = new System.Drawing.Size(218, 28);
-            this.select_day.TabIndex = 8;
-            this.select_day.Text = "Click to select";
-            this.select_day.SelectedIndexChanged += new System.EventHandler(this.select_day_SelectedIndexChanged);
-            // 
             // main_window
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -213,7 +198,6 @@
         private System.Windows.Forms.Button but_add;
         private System.Windows.Forms.Button refresh;
         private System.Windows.Forms.DateTimePicker dateTimePicker1;
-        private System.Windows.Forms.ComboBox select_day;
     }
 }
 
