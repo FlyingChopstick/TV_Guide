@@ -21,5 +21,10 @@ namespace TV_Guide
         {
 
         }
+
+        private void genre_select_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -44,6 +44,7 @@
             this.main_table.AllowUserToAddRows = false;
             this.main_table.AllowUserToDeleteRows = false;
             this.main_table.AllowUserToResizeRows = false;
+            this.main_table.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.main_table.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
@@ -54,7 +55,6 @@
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.main_table.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.main_table.ColumnHeadersHeight = 35;
-            this.main_table.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.main_table.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Date,
             this.name,
@@ -62,32 +62,39 @@
             this.channel,
             this.time_start,
             this.time_end});
-            this.main_table.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.main_table.Dock = System.Windows.Forms.DockStyle.Top;
             this.main_table.Location = new System.Drawing.Point(0, 0);
             this.main_table.Name = "main_table";
             this.main_table.ReadOnly = true;
+            this.main_table.RowTemplate.DefaultCellStyle.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.main_table.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.main_table.RowTemplate.DefaultCellStyle.ForeColor = System.Drawing.Color.Empty;
+            this.main_table.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.LightSalmon;
+            this.main_table.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.Black;
             this.main_table.RowTemplate.ReadOnly = true;
-            this.main_table.Size = new System.Drawing.Size(644, 506);
+            this.main_table.Size = new System.Drawing.Size(670, 402);
             this.main_table.TabIndex = 1;
-            this.main_table.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
             // Date
             // 
             this.Date.HeaderText = "Date";
             this.Date.Name = "Date";
             this.Date.ReadOnly = true;
+            this.Date.Width = 73;
             // 
             // name
             // 
             this.name.HeaderText = "Title";
             this.name.Name = "name";
             this.name.ReadOnly = true;
+            this.name.Width = 68;
             // 
             // type
             // 
             this.type.HeaderText = "Genre";
             this.type.Name = "type";
             this.type.ReadOnly = true;
+            this.type.Width = 84;
             // 
             // channel
             // 
@@ -100,17 +107,20 @@
             this.time_start.HeaderText = "Begins";
             this.time_start.Name = "time_start";
             this.time_start.ReadOnly = true;
+            this.time_start.Width = 89;
             // 
             // time_end
             // 
             this.time_end.HeaderText = "Ends";
             this.time_end.Name = "time_end";
             this.time_end.ReadOnly = true;
+            this.time_end.Width = 75;
             // 
             // Timetable
             // 
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(644, 506);
+            this.ClientSize = new System.Drawing.Size(670, 401);
             this.Controls.Add(this.main_table);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;

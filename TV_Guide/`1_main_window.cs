@@ -11,9 +11,18 @@ namespace TV_Guide
         {
             InitializeComponent();
 
+            //sets the initial visible values of time pickers
+            start_time.Value = new DateTime(2019, 1, 1, 0, 0, 0);
+            end_time.Value = new DateTime(2019, 1, 1, 0, 0, 0);
+
+            //gets the data for the lists
             refresh_lists();
+            //starts the refresh timer
+            timer_refresh.Start();
         }
 
+        //==========================================================================
+        //refreshes <genres> and <channels> drop menus
         private void refresh_lists()
         {
             Database db = new Database();
@@ -28,12 +37,6 @@ namespace TV_Guide
             {
                 while (reader.Read())
                 {
-                    /**
-                    string temp_date = reader.GetValue(reader.GetOrdinal("day_date")).ToString();
-                    if (is_unique(temp_date, dates) == true)
-                        dates.Add(temp_date);
-                    /**/
-
                     string temp_genre = reader.GetValue(reader.GetOrdinal("type")).ToString();
                     if (is_unique(temp_genre, genres) == true)
                         genres.Add(temp_genre);
@@ -45,14 +48,6 @@ namespace TV_Guide
             }
 
             db.CloseConnection();
-
-
-            //fill the DAYS dropbox
-            select_day.Items.Clear();
-            foreach (string day in dates)
-            {
-                select_day.Items.Add(day);
-            }
 
             //fill the GENRES dropbox
             select_genre.Items.Clear();
@@ -68,7 +63,7 @@ namespace TV_Guide
                 select_channel.Items.Add(channel);
             }
         }
-
+        //checks if the <item> is not present in List<items>
         private bool is_unique(string temp_item, List<string> items)
         {
             bool is_unique = true;
@@ -82,15 +77,20 @@ namespace TV_Guide
                 return true;
             else return false;
         }
+        //==========================================================================
 
 
+
+        //==========================================================================
+        //NEW WINDOWS
+        //TIMETABLE CALL
         private void but_timetable_Click(object sender, EventArgs e)
         {
             Timetable o_timetable = new Timetable();
 
             o_timetable.ShowDialog();
         }
-
+        //ADD CALL
         private void but_add_Click(object sender, EventArgs e)
         {
             Add_entry o_add_entry = new Add_entry();
@@ -99,86 +99,133 @@ namespace TV_Guide
 
             refresh_lists();
         }
-
+        //SEARCH CALL
         private void but_search_Click(object sender, EventArgs e)
         {
-            Results o_results = new Results(dateTimePicker1.Value, selected_Genre, selected_Channel);
+            Results o_results = new Results(dateTimePicker1.Value, selected_Genre, selected_Channel, selected_start, selected_end);
 
             o_results.ShowDialog();
         }
+        //==========================================================================
 
+
+
+        //==========================================================================
+        //REFRESH
         private void refresh_Click(object sender, EventArgs e)
         {
             refresh_lists();
+            tick_count = -1;
         }
+        //REFRESH TIMER
+        //tick counter (seconds)
+        private int tick_count = 0;
+        private void timer_refresh_Tick(object sender, EventArgs e)
+        {
+            tick_count += 1;
+            label_refresh_time.Text = "Auto-refresh in " + (60 - tick_count).ToString() + " seconds";
+            if (tick_count == 60)
+            {
+                refresh_lists();
+                tick_count = 0;
+            }
+        }
+        //==========================================================================
 
-        //data sources
-        
-        //replaced by datetimepicker
-        private List<string> dates = new List<string>{
-            "Monday",
-            "Tuesday",
-            "Wednesday",
-            "Thursday",
-            "Friday",
-            "Saturday",
-            "Sunday"
-            };
 
+
+        //DATA SOURCES
+        //==========================================================================
         //list of genres
         private List<string> genres = new List<string>();
         //list of channels
         private List<string> channels = new List<string>();
-
-        //replaced by raw DateTime
-        //private string selected_Day = DateTime.Today.DayOfWeek.ToString();
         
+        //SELECTIONS
         private string selected_Genre = "No selection";
         private string selected_Channel = "No selection";
+        private string selected_start = "No selection";
+        private string selected_end = "No selection";
+        //==========================================================================
 
 
-        private void select_day_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            //Day_selection = select_day.SelectedIndex;
-        }
 
-        private string return_day(int Day_selected)
-        {
-            switch (Day_selected)
-            {
-                case 0: return "Monday";
-                case 1: return "Tuesday";
-                case 2: return "Wednesday";
-                case 3: return "Thursday";
-                case 4: return "Friday";
-                case 5: return "Saturday";
-                case 6: return "Sunday";
-
-                default: return "Error: Wrong index";
-            }
-        }
-
-        private string to_short_time(DateTime dateTime)
-        {
-
-            string long_time = dateTime.TimeOfDay.ToString(); //(dateTime.ToUniversalTime().ToString("s").Remove(0, 11));
-            //return long_time.Remove(long_time.Length - 3);
-            return long_time;
-        }
-
-        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
-        {
-            selected_Day = dateTimePicker1.Value.DayOfWeek.ToString();
-        }
-
+        //==========================================================================
+        //select the GENRE
         private void select_genre_SelectedIndexChanged(object sender, EventArgs e)
         {
             selected_Genre = select_genre.Text;
         }
+        //==========================================================================
 
+
+
+        //==========================================================================
+        //select the CHANNEL
         private void select_channel_SelectedIndexChanged(object sender, EventArgs e)
         {
             selected_Channel = select_channel.Text;
         }
+        //==========================================================================
+
+
+
+        //==========================================================================
+        //select START_TIME
+        //toggle
+        private void toggle_start_CheckedChanged(object sender, EventArgs e)
+        {
+            if (toggle_start.Checked == true)
+                start_time.Enabled = true;
+            else
+            {
+                start_time.Enabled = false;
+
+                selected_start = "No selection";
+            }
+        }
+        //enabled
+        private void start_time_EnabledChanged(object sender, EventArgs e)
+        {
+            if (start_time.Enabled == true)
+                start_time.Value = DateTime.Now;
+        }
+        //value
+        private void start_time_ValueChanged(object sender, EventArgs e)
+        {
+            if (start_time.Enabled == true)
+                selected_start = start_time.Value.ToString();
+        }
+        //==========================================================================
+
+
+
+        //==========================================================================
+        //select END_TIME
+        //toggle
+        private void toggle_end_CheckedChanged(object sender, EventArgs e)
+        {
+            if (toggle_end.Checked == true)
+                end_time.Enabled = true;
+            else
+            {
+                end_time.Enabled = false;
+
+                selected_end = "No selection";
+            }
+        }
+        //enabled
+        private void end_time_EnabledChanged(object sender, EventArgs e)
+        {
+            if (end_time.Enabled == true)
+                end_time.Value = DateTime.Now;
+        }
+        //value
+        private void end_time_ValueChanged(object sender, EventArgs e)
+        {
+            if (end_time.Enabled==true)
+            selected_end = end_time.Value.ToString();
+        }
+        //==========================================================================
     }
 }
