@@ -102,7 +102,7 @@
             this.select_genre.Name = "select_genre";
             this.select_genre.Size = new System.Drawing.Size(243, 32);
             this.select_genre.TabIndex = 6;
-            this.select_genre.Text = "Click to select";
+            this.select_genre.Text = "Select channel";
             this.select_genre.SelectedIndexChanged += new System.EventHandler(this.select_genre_SelectedIndexChanged);
             // 
             // groupBox1

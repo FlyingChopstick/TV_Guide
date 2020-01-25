@@ -1,4 +1,5 @@
 ﻿using System.Data.SQLite;
+using System.Configuration;
 
 namespace TV_Guide
 {
@@ -9,7 +10,8 @@ namespace TV_Guide
 
         public Database()
         {
-            Connection = new SQLiteConnection("Data Source=./tv.db");
+            Connection = new SQLiteConnection(ConfigurationManager.ConnectionStrings["Default"].ConnectionString);
+            //Connection = new SQLiteConnection("Data Source=./tv.db");
             //Connection = new SQLiteConnection(LoadConnectionString());
         }
 

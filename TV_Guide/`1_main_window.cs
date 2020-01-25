@@ -38,12 +38,10 @@ namespace TV_Guide
                 while (reader.Read())
                 {
                     string temp_genre = reader.GetValue(reader.GetOrdinal("type")).ToString();
-                    if (is_unique(temp_genre, genres) == true)
-                        genres.Add(temp_genre);
+                    is_unique(temp_genre, genres);
 
                     string temp_channel = reader.GetValue(reader.GetOrdinal("channel")).ToString();
-                    if (is_unique(temp_channel, channels) == true)
-                        channels.Add(temp_channel);
+                    is_unique(temp_channel, channels);
                 }
             }
 
@@ -64,7 +62,7 @@ namespace TV_Guide
             }
         }
         //checks if the <item> is not present in List<items>
-        private bool is_unique(string temp_item, List<string> items)
+        private void is_unique(string temp_item, List<string> items)
         {
             bool is_unique = true;
             //checks whether the genre is unique - adds to the droplist if true
@@ -74,8 +72,9 @@ namespace TV_Guide
                     is_unique = false;
             }
             if (is_unique == true)
-                return true;
-            else return false;
+            {
+                items.Add(temp_item);
+            }
         }
         //==========================================================================
 
