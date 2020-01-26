@@ -44,7 +44,7 @@
             this.main_table.AllowUserToAddRows = false;
             this.main_table.AllowUserToDeleteRows = false;
             this.main_table.AllowUserToResizeRows = false;
-            this.main_table.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.main_table.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.main_table.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
@@ -79,21 +79,18 @@
             this.Date.HeaderText = "Date";
             this.Date.Name = "Date";
             this.Date.ReadOnly = true;
-            this.Date.Width = 73;
             // 
             // name
             // 
             this.name.HeaderText = "Title";
             this.name.Name = "name";
             this.name.ReadOnly = true;
-            this.name.Width = 68;
             // 
             // type
             // 
             this.type.HeaderText = "Genre";
             this.type.Name = "type";
             this.type.ReadOnly = true;
-            this.type.Width = 84;
             // 
             // channel
             // 
@@ -106,14 +103,12 @@
             this.time_start.HeaderText = "Begins";
             this.time_start.Name = "time_start";
             this.time_start.ReadOnly = true;
-            this.time_start.Width = 89;
             // 
             // time_end
             // 
             this.time_end.HeaderText = "Ends";
             this.time_end.Name = "time_end";
             this.time_end.ReadOnly = true;
-            this.time_end.Width = 75;
             // 
             // Timetable
             // 

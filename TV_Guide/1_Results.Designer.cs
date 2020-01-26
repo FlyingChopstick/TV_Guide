@@ -30,7 +30,6 @@
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.table_result = new System.Windows.Forms.DataGridView();
-            this.label1 = new System.Windows.Forms.Label();
             this.name = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.type = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.channel = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -44,7 +43,7 @@
             this.table_result.AllowUserToAddRows = false;
             this.table_result.AllowUserToDeleteRows = false;
             this.table_result.AllowUserToResizeRows = false;
-            this.table_result.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.table_result.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.table_result.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
@@ -73,28 +72,17 @@
             this.table_result.Size = new System.Drawing.Size(800, 450);
             this.table_result.TabIndex = 2;
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(176, 224);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(35, 13);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "label1";
-            // 
             // name
             // 
             this.name.HeaderText = "Title";
             this.name.Name = "name";
             this.name.ReadOnly = true;
-            this.name.Width = 68;
             // 
             // type
             // 
             this.type.HeaderText = "Genre";
             this.type.Name = "type";
             this.type.ReadOnly = true;
-            this.type.Width = 84;
             // 
             // channel
             // 
@@ -107,34 +95,29 @@
             this.time_start.HeaderText = "Begins";
             this.time_start.Name = "time_start";
             this.time_start.ReadOnly = true;
-            this.time_start.Width = 89;
             // 
             // time_end
             // 
             this.time_end.HeaderText = "Ends";
             this.time_end.Name = "time_end";
             this.time_end.ReadOnly = true;
-            this.time_end.Width = 75;
             // 
             // Results
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.label1);
             this.Controls.Add(this.table_result);
             this.Name = "Results";
             this.Text = "Results";
             ((System.ComponentModel.ISupportInitialize)(this.table_result)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
         private System.Windows.Forms.DataGridView table_result;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.DataGridViewTextBoxColumn name;
         private System.Windows.Forms.DataGridViewTextBoxColumn type;
         private System.Windows.Forms.DataGridViewTextBoxColumn channel;
