@@ -79,8 +79,8 @@ namespace TV_Guide
                                     DateTime next_start = DateTime.Parse(reader.GetValue(reader.GetOrdinal("start")).ToString());
                                     DateTime next_end = DateTime.Parse(reader.GetValue(reader.GetOrdinal("end")).ToString());
 
-                                    if ((DateTime.Compare(starts[table_result.RowCount - 1], next_start) > 0)
-                                        && (DateTime.Compare(ends[table_result.RowCount - 1], next_end) > 0))
+                                    if ((DateTime.Compare(starts[table_result.RowCount - 1], next_start) < 0)
+                                        && (DateTime.Compare(ends[table_result.RowCount - 1], next_start) < 0))
                                     {
                                         table_result.Rows.Add(new object[]
                                         {
@@ -137,8 +137,8 @@ namespace TV_Guide
         private List<string> titles;
         private List<string> genres;
         private List<string> channels;
-        private List<DateTime> starts;
-        private List<DateTime> ends;
+        //private List<DateTime> starts;
+        //private List<DateTime> ends;
         //==========================================================================
 
 
