@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Windows.Forms;
+using System.Configuration;
 
 namespace TV_Guide
 {
@@ -21,31 +22,36 @@ namespace TV_Guide
             timer_refresh.Start();
         }
 
+
+
         //==========================================================================
         //refreshes <genres> and <channels> drop menus
         private void refresh_lists()
         {
-            Database db = new Database();
-            String query = "SELECT * FROM tv_schedule";
-            SQLiteCommand command = new SQLiteCommand(query, db.Connection);
-            db.OpenConnection();
-
-            SQLiteDataReader reader = command.ExecuteReader();
-
-            //fill list with unique values
-            if (reader.HasRows)
+            using (SQLiteConnection read_connection = new SQLiteConnection(ConnectionString))
             {
-                while (reader.Read())
-                {
-                    string temp_genre = reader.GetValue(reader.GetOrdinal("genre")).ToString();
-                    is_unique(temp_genre, genres);
+                read_connection.Open();
 
-                    string temp_channel = reader.GetValue(reader.GetOrdinal("channel")).ToString();
-                    is_unique(temp_channel, channels);
+                String query = "SELECT * FROM tv_schedule";
+                using (SQLiteCommand command = new SQLiteCommand(query, read_connection))
+                {
+                    using (SQLiteDataReader reader = command.ExecuteReader())
+                    {
+                        //fill list with unique values
+                        if (reader.HasRows)
+                        {
+                            while (reader.Read())
+                            {
+                                string temp_genre = reader.GetValue(reader.GetOrdinal("genre")).ToString();
+                                is_unique(temp_genre, genres);
+
+                                string temp_channel = reader.GetValue(reader.GetOrdinal("channel")).ToString();
+                                is_unique(temp_channel, channels);
+                            }
+                        }
+                    }
                 }
             }
-
-            db.CloseConnection();
 
             //fill the GENRES dropbox
             select_genre.Items.Clear();
@@ -56,6 +62,7 @@ namespace TV_Guide
 
             //fill the CHANNELS dropbox
             select_channel.Items.Clear();
+            select_channel.Items.Add("No selection");
             foreach (string channel in channels)
             {
                 select_channel.Items.Add(channel);
@@ -101,9 +108,63 @@ namespace TV_Guide
         //SEARCH CALL
         private void but_search_Click(object sender, EventArgs e)
         {
-            Results o_results = new Results(dateTimePicker1.Value, selected_Genre, selected_Channel, selected_start, selected_end);
+            if ((rb_by_genre.Checked == true) && (selected_Genre == "No selection"))
+            {
+                MessageBox.Show("Enter the genre.");
+            }
+            else
+            {
+                if ((rb_by_title.Checked == true) && (selected_Title == "No selection"))
+                {
+                    MessageBox.Show("Enter the title.");
+                }
+                else
+                {
+                    if ((toggle_start.Checked==true)&&(toggle_end.Checked==true)&&(DateTime.Compare(start_time.Value, end_time.Value) >= 0))
+                    {
+                        MessageBox.Show("Wrong duration.");
+                    }
+                    else
+                    {
+                        //query_strings [0] - date, [1] - genre, [2] - title, [3] - channel, [4] - start, [5] - end
+                        string[] query_strings =
+                            {
+                            dateTimePicker1.Value.ToString("yyyy-MM-dd"),
+                            selected_Genre,
+                            selected_Title,
+                            selected_Channel,
+                            selected_start,
+                            selected_end
+                            };
 
-            o_results.ShowDialog();
+                        //search_mode: [0] - 1genre/0title [1] - using channel, [2] - start selected, [3] - end selected
+                        Boolean[] search_mode =
+                            {
+                            true,
+                            true,
+                            true,
+                            true,
+                            };
+                        
+                        if (select_genre.Enabled == false)
+                            search_mode[0] = false;
+
+                        if (selected_Channel == "No selection")
+                            search_mode[1] = false;
+
+                        //if (selected_start == "No selection")
+                        search_mode[2] = toggle_start.Checked;
+
+                        //if (selected_end == "No selection")
+                        search_mode[3] = toggle_end.Checked;
+
+
+                        Results o_results = new Results(query_strings, search_mode);
+                        o_results.ShowDialog();
+                        refresh_lists();
+                    }
+                }
+            }
         }
         //==========================================================================
 
@@ -135,16 +196,21 @@ namespace TV_Guide
 
         //DATA SOURCES
         //==========================================================================
+        //connection string
+        private string ConnectionString = ConfigurationManager.ConnectionStrings["Default"].ConnectionString;
+
         //list of genres
         private List<string> genres = new List<string>();
         //list of channels
         private List<string> channels = new List<string>();
-        
+
         //SELECTIONS
+        private DateTime selected_Day = DateTime.Today;
         private string selected_Genre = "No selection";
         private string selected_Channel = "No selection";
         private string selected_start = "No selection";
         private string selected_end = "No selection";
+        private string selected_Title = "No selection";
         //==========================================================================
 
 
@@ -193,7 +259,7 @@ namespace TV_Guide
         private void start_time_ValueChanged(object sender, EventArgs e)
         {
             if (start_time.Enabled == true)
-                selected_start = start_time.Value.ToString();
+                selected_start = start_time.Text;
         }
         //==========================================================================
 
@@ -223,8 +289,48 @@ namespace TV_Guide
         private void end_time_ValueChanged(object sender, EventArgs e)
         {
             if (end_time.Enabled==true)
-            selected_end = end_time.Value.ToString();
+            selected_end = end_time.Text;
         }
         //==========================================================================
+
+
+
+
+
+        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        {
+            selected_Day = dateTimePicker1.Value;
+        }
+
+
+        private void rb_by_genre_CheckedChanged(object sender, EventArgs e)
+        {
+            select_genre.Enabled = true;
+            cb_title.Enabled = false;
+            //selected_Genre = select_genre.Text;
+            selected_Title = "No selection";
+        }
+        private void rb_by_title_CheckedChanged(object sender, EventArgs e)
+        {
+            cb_title.Enabled = true;
+            select_genre.Enabled = false;
+            //selected_Title = cb_title.Text;
+            selected_Genre = "No selection";
+        }
+
+
+        private void select_genre_TextChanged(object sender, EventArgs e)
+        {
+            selected_Genre = select_genre.Text;
+        }
+        private void cb_title_TextChanged(object sender, EventArgs e)
+        {
+            selected_Title = cb_title.Text;
+        }
+
+        private void cb_title_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            selected_Title = cb_title.Text;
+        }
     }
 }

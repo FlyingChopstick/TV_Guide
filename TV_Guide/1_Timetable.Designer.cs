@@ -62,7 +62,7 @@
             this.channel,
             this.time_start,
             this.time_end});
-            this.main_table.Dock = System.Windows.Forms.DockStyle.Top;
+            this.main_table.Dock = System.Windows.Forms.DockStyle.Fill;
             this.main_table.Location = new System.Drawing.Point(0, 0);
             this.main_table.Name = "main_table";
             this.main_table.ReadOnly = true;
@@ -71,7 +71,7 @@
             this.main_table.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.LightSalmon;
             this.main_table.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.Black;
             this.main_table.RowTemplate.ReadOnly = true;
-            this.main_table.Size = new System.Drawing.Size(670, 402);
+            this.main_table.Size = new System.Drawing.Size(670, 401);
             this.main_table.TabIndex = 1;
             // 
             // Date

@@ -72,7 +72,6 @@
     <Compile Include="1_Add_entry.Designer.cs">
       <DependentUpon>1_Add_entry.cs</DependentUpon>
     </Compile>
-    <Compile Include="Database.cs" />
     <Compile Include="`1_main_window.cs">
       <SubType>Form</SubType>
     </Compile>
