@@ -68,7 +68,6 @@
             this.main_table.ReadOnly = true;
             this.main_table.RowTemplate.DefaultCellStyle.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             this.main_table.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.main_table.RowTemplate.DefaultCellStyle.ForeColor = System.Drawing.Color.Empty;
             this.main_table.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.LightSalmon;
             this.main_table.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.Black;
             this.main_table.RowTemplate.ReadOnly = true;
@@ -125,6 +124,7 @@
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "Timetable";
+            this.Text = "Timetable";
             ((System.ComponentModel.ISupportInitialize)(this.main_table)).EndInit();
             this.ResumeLayout(false);
 
@@ -132,8 +132,8 @@
 
         #endregion
 
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        //private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        //private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.DataGridView main_table;
         private System.Windows.Forms.DataGridViewTextBoxColumn Date;
         private System.Windows.Forms.DataGridViewTextBoxColumn name;

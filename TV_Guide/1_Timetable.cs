@@ -26,12 +26,12 @@ namespace TV_Guide
                 {
                     main_table.Rows.Add(new object[] 
                     {
-                        reader.GetValue(reader.GetOrdinal("day_date")).ToString(),
-                        reader.GetValue(reader.GetOrdinal("name")).ToString(),
-                        reader.GetValue(reader.GetOrdinal("type")).ToString(),
-                        reader.GetValue(reader.GetOrdinal("channel")).ToString(),
-                        reader.GetValue(reader.GetOrdinal("time_start")).ToString(),
-                        reader.GetValue(reader.GetOrdinal("time_end")).ToString(),
+                        reader.GetValue(reader.GetOrdinal("Day")).ToString(),
+                        reader.GetValue(reader.GetOrdinal("Title")).ToString(),
+                        reader.GetValue(reader.GetOrdinal("Genre")).ToString(),
+                        reader.GetValue(reader.GetOrdinal("Channel")).ToString(),
+                        reader.GetValue(reader.GetOrdinal("start")).ToString(),
+                        reader.GetValue(reader.GetOrdinal("end")).ToString(),
                     }
                     );
                 }

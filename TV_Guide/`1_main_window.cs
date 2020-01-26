@@ -37,7 +37,7 @@ namespace TV_Guide
             {
                 while (reader.Read())
                 {
-                    string temp_genre = reader.GetValue(reader.GetOrdinal("type")).ToString();
+                    string temp_genre = reader.GetValue(reader.GetOrdinal("genre")).ToString();
                     is_unique(temp_genre, genres);
 
                     string temp_channel = reader.GetValue(reader.GetOrdinal("channel")).ToString();

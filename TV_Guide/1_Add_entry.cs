@@ -24,6 +24,8 @@ namespace TV_Guide
         //refreshes <genres> and <channels> drop menus
         private void refresh_lists()
         {
+            tick_count = 0;
+
             Database db = new Database();
             String query = "SELECT * FROM tv_schedule";
             SQLiteCommand command = new SQLiteCommand(query, db.Connection);
@@ -36,7 +38,7 @@ namespace TV_Guide
             {
                 while (reader.Read())
                 {
-                    string temp_genre = reader.GetValue(reader.GetOrdinal("type")).ToString();
+                    string temp_genre = reader.GetValue(reader.GetOrdinal("genre")).ToString();
                     is_unique(temp_genre, genres);
 
                     string temp_channel = reader.GetValue(reader.GetOrdinal("channel")).ToString();
@@ -87,12 +89,12 @@ namespace TV_Guide
         private List<string> channels = new List<string>();
 
         //selections
-        private string selected_Day = "No selection";
-        private string selected_Date = "No selection";
+        //private string selected_Day = "No selection";
+        //private string selected_Date = "No selection";
         private string selected_Genre = "No selection";
         private string selected_Channel = "No selection";
-        private string selected_start = "No selection";
-        private string selected_end = "No selection";
+        //private string selected_start = "No selection";
+        //private string selected_end = "No selection";
         //==========================================================================
 
 
@@ -139,18 +141,18 @@ namespace TV_Guide
         //start
         private void start_time_ValueChanged(object sender, EventArgs e)
         {
-            selected_start = start_time.Value.ToString();
+            //selected_start = start_time.Value.ToString();
         }
         //end
         private void end_time_ValueChanged(object sender, EventArgs e)
         {
-             selected_end = end_time.Value.ToString();
+             //selected_end = end_time.Value.ToString();
         }
 
         private void set_date_ValueChanged(object sender, EventArgs e)
         {
-            selected_Day = set_date.Value.DayOfWeek.ToString();
-            selected_Date = set_date.Value.ToString("yyyy-MM-dd");
+            //selected_Day = set_date.Value.DayOfWeek.ToString();
+            //selected_Date = set_date.Value.ToString("yyyy-MM-dd");
         }
         //==========================================================================
 
@@ -185,6 +187,80 @@ namespace TV_Guide
                 tick_count = 0;
             }
         }
+
+        private void but_search_Click(object sender, EventArgs e)
+        {
+            Boolean ready = false;
+
+            //DateTime checks
+            Int32 compare_result;
+            //if date is in the past
+            compare_result = DateTime.Compare(set_date.Value, DateTime.Now);
+            if (compare_result < 0)
+            {
+                MessageBox.Show("Error: Cannot add an event in the past.");
+            }
+            else
+            {
+                //if end_time <= start_time
+                compare_result = DateTime.Compare(end_time.Value, start_time.Value);
+                if (compare_result <= 0)
+                {
+                    MessageBox.Show("Error: invalid duration of the show.");
+                }
+                else
+                {
+                    ready = true;
+                }
+            }
+
+            /**/
+            if (ready==true)
+            {
+                Database db = new Database();
+
+                String query = "INSERT INTO tv_schedule(Day,start,end,Channel,Title,Genre) VALUES (@Day, @start, @end, @Channel, @Title, @Genre)";
+                SQLiteCommand command = new SQLiteCommand(query, db.Connection);
+                db.OpenConnection();
+
+                command.Parameters.AddWithValue("@Day", set_date.Value.ToString("yyyy-MM-dd"));
+                command.Parameters.AddWithValue("@start", start_time.Value.ToString("HH:mm"));
+                command.Parameters.AddWithValue("@end", end_time.Value.ToString("HH:mm"));
+                command.Parameters.AddWithValue("@Channel", selected_Channel);
+                command.Parameters.AddWithValue("@Title", enter_title.Text);
+                command.Parameters.AddWithValue("@Genre", selected_Genre);
+
+                command.ExecuteNonQuery();
+
+                db.CloseConnection();
+
+                MessageBox.Show("Added the event.");
+                refresh_lists();
+            }
+            /**/
+            //label1.Text = $"{selected_Date} {selected_Genre}{selected_Channel} {selected_start}{selected_end}";
+            //label1.Text = $"{set_date.Value.ToString("yyyy-MM-dd")} {genre_select.Text}{channel_select.Text} {start_time.Value.ToString("HH:mm")}{end_time.Value.ToString("HH:mm")}";
+        }
         //==========================================================================
+
+        private void genre_enter_TextChanged(object sender, EventArgs e)
+        {
+            selected_Genre = genre_enter.Text;
+        }
+
+        private void channel_enter_TextChanged(object sender, EventArgs e)
+        {
+            selected_Channel = channel_enter.Text;
+        }
+
+        private void genre_select_TextChanged(object sender, EventArgs e)
+        {
+            selected_Genre = genre_select.Text;
+        }
+
+        private void channel_select_TextChanged(object sender, EventArgs e)
+        {
+            selected_Channel = channel_select.Text;
+        }
     }
 }
