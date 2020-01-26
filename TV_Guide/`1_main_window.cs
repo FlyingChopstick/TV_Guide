@@ -42,6 +42,9 @@ namespace TV_Guide
                         {
                             while (reader.Read())
                             {
+                                string temp_title = reader.GetValue(reader.GetOrdinal("Title")).ToString();
+                                is_unique(temp_title, titles);
+
                                 string temp_genre = reader.GetValue(reader.GetOrdinal("genre")).ToString();
                                 is_unique(temp_genre, genres);
 
@@ -66,6 +69,12 @@ namespace TV_Guide
             foreach (string channel in channels)
             {
                 select_channel.Items.Add(channel);
+            }
+
+            cb_title.Items.Clear();
+            foreach (string title in titles)
+            {
+                cb_title.Items.Add(title);
             }
         }
         //checks if the <item> is not present in List<items>
@@ -199,6 +208,8 @@ namespace TV_Guide
         //connection string
         private string ConnectionString = ConfigurationManager.ConnectionStrings["Default"].ConnectionString;
 
+        //list of titles
+        private List<string> titles = new List<string>();
         //list of genres
         private List<string> genres = new List<string>();
         //list of channels

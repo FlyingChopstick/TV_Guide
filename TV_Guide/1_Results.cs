@@ -48,7 +48,7 @@ namespace TV_Guide
                 case false: break;
             }
 
-            query = $"{query})";
+            query = $"{query}) ORDER BY start ASC ";
             //label1.Text = query;
             display_query(query);
             
@@ -74,10 +74,10 @@ namespace TV_Guide
                         {
                             while (reader.Read())
                             {
-                                if (table_result.RowCount > 1)
+                                if (table_result.RowCount > 0)
                                 {
                                     DateTime next_start = DateTime.Parse(reader.GetValue(reader.GetOrdinal("start")).ToString());
-                                    DateTime next_end = DateTime.Parse(reader.GetValue(reader.GetOrdinal("end")).ToString());
+                                    //DateTime next_end = DateTime.Parse(reader.GetValue(reader.GetOrdinal("end")).ToString());
 
                                     if ((DateTime.Compare(starts[table_result.RowCount - 1], next_start) < 0)
                                         && (DateTime.Compare(ends[table_result.RowCount - 1], next_start) < 0))
@@ -133,59 +133,7 @@ namespace TV_Guide
         //==========================================================================
         //connection string
         private string ConnectionString = ConfigurationManager.ConnectionStrings["Default"].ConnectionString;
-
-        private List<string> titles;
-        private List<string> genres;
-        private List<string> channels;
-        //private List<DateTime> starts;
-        //private List<DateTime> ends;
         //==========================================================================
 
-
-
-        //==========================================================================
-        //refreshes <genres> and <channels> drop menus
-        private void refresh_lists()
-        {
-            using (SQLiteConnection read_connection = new SQLiteConnection(ConnectionString))
-            {
-                read_connection.Open();
-
-                String query = "SELECT * FROM tv_schedule";
-                using (SQLiteCommand command = new SQLiteCommand(query, read_connection))
-                {
-                    using (SQLiteDataReader reader = command.ExecuteReader())
-                    {
-                        //fill list with unique values
-                        if (reader.HasRows)
-                        {
-                            while (reader.Read())
-                            {
-                                string temp_genre = reader.GetValue(reader.GetOrdinal("genre")).ToString();
-                                is_unique(temp_genre, genres);
-
-                                string temp_channel = reader.GetValue(reader.GetOrdinal("channel")).ToString();
-                                is_unique(temp_channel, channels);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        //checks if the <item> is not present in List<items>
-        private void is_unique(string temp_item, List<string> items)
-        {
-            bool is_unique = true;
-            //checks whether the genre is unique - adds to the droplist if true
-            foreach (string item in items)
-            {
-                if (temp_item == item)
-                    is_unique = false;
-            }
-            if (is_unique == true)
-            {
-                items.Add(temp_item);
-            }
-        }
     }
 }

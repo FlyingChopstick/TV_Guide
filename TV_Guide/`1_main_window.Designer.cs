@@ -150,6 +150,8 @@
             // 
             // cb_title
             // 
+            this.cb_title.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cb_title.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cb_title.Enabled = false;
             this.cb_title.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F);
             this.cb_title.FormattingEnabled = true;
