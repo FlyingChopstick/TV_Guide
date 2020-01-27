@@ -20,10 +20,6 @@ namespace TV_Guide
             timer_refresh.Start();
         }
 
-
-
-        //DATA SOURCES
-        //==========================================================================
         //connection string
         private string ConnectionString = ConfigurationManager.ConnectionStrings["Default"].ConnectionString;
 
@@ -35,11 +31,7 @@ namespace TV_Guide
         //selections
         private string selected_Genre = "No selection";
         private string selected_Channel = "No selection";
-        //==========================================================================
 
-
-        //POPULATION
-        //==========================================================================
         //refreshes <genres> and <channels> drop menus
         private void refresh_lists()
         {
@@ -101,29 +93,7 @@ namespace TV_Guide
                 items.Add(temp_item);
             }
         }
-        //==========================================================================
 
-
-
-        /**
-        //SELECTORS
-        //==========================================================================
-        //genre
-        private void genre_select_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            selected_Genre = genre_select.Text;
-        }
-        //channel
-        private void channel_select_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            selected_Channel = channel_select.Text;
-        }
-        //==========================================================================
-        /**/
-
-
-        //REFRESH TIMER
-        //==========================================================================
         //tick counter (seconds)
         private int tick_count = 0;
 
@@ -137,12 +107,8 @@ namespace TV_Guide
                 tick_count = 0;
             }
         }
-        //==========================================================================
-
-
 
         //ADD BUTTON
-        //==========================================================================
         private void but_search_Click(object sender, EventArgs e)
         {
             //correctness of the new title
@@ -200,7 +166,6 @@ namespace TV_Guide
                 }
             }
 
-
             //AVALIABILITY CHECK
             if (is_correct == true)
             {
@@ -210,8 +175,6 @@ namespace TV_Guide
                 string selected_start = start_time.Value.ToString("HH:mm");
                 //END time
                 string selected_end = end_time.Value.ToString("HH:mm");
-
-
 
                 //if there is a similar title already
                 using (SQLiteConnection connection = new SQLiteConnection(ConnectionString))
@@ -243,8 +206,6 @@ namespace TV_Guide
                                     chck[7] = DateTime.Parse(reader.GetValue(reader.GetOrdinal("start")).ToString()) < DateTime.Parse(selected_end);
                                     chck[8] = DateTime.Parse(reader.GetValue(reader.GetOrdinal("end")).ToString()) > DateTime.Parse(selected_end);
 
-
-
                                     //if DAY, CHANNEL and TITLE are found
                                     if (chck[0] && chck[1] && chck[2])
                                     {
@@ -264,28 +225,24 @@ namespace TV_Guide
                                             //if START overlaps with an existing title
                                             if (chck[5] && chck[6])
                                             {
-                                                MessageBox.Show("Error: Start overlaps with an existing event.");
-                                                break;
+                                                MessageBox.Show("Error: Start overlaps with an existing event."); break;
                                             }
                                             else
                                             //if END overlaps with an existing title
                                             {
                                                 if (chck[7] && chck[8])
                                                 {
-                                                    MessageBox.Show("Error: End overlaps with an existing event.");
-                                                    break;
+                                                    MessageBox.Show("Error: End overlaps with an existing event."); break;
                                                 }
                                                 else
                                                 {
-                                                    is_avaliable = true;
-                                                    break;
+                                                    is_avaliable = true; break;
                                                 }
                                             }
                                         }
                                         else
                                         {
-                                            is_avaliable = true;
-                                            break;
+                                            is_avaliable = true; break;
                                         }
                                     }
                                 }
@@ -303,14 +260,12 @@ namespace TV_Guide
                         String query_add = "INSERT INTO tv_schedule(Day,start,end,Channel,Title,Genre) VALUES (@Day, @start, @end, @Channel, @Title, @Genre)";
                         using (SQLiteCommand command = new SQLiteCommand(query_add, insert_connection))
                         {
-
                             command.Parameters.AddWithValue("@Day", selected_date);
                             command.Parameters.AddWithValue("@start", selected_start);
                             command.Parameters.AddWithValue("@end", selected_end);
                             command.Parameters.AddWithValue("@Channel", selected_Channel);
                             command.Parameters.AddWithValue("@Title", enter_title.Text);
                             command.Parameters.AddWithValue("@Genre", selected_Genre);
-
                             command.ExecuteNonQuery();
 
                             MessageBox.Show("Added the event.");
@@ -320,12 +275,8 @@ namespace TV_Guide
                 }
             }
         }
-        //==========================================================================
-
-
 
         //on change of genre, write into SELECTED_GENRE
-        //==========================================================================
         private void genre_select_TextChanged(object sender, EventArgs e)
         {
             selected_Genre = genre_select.Text;
@@ -349,4 +300,3 @@ namespace TV_Guide
         }
     }
 }
-
